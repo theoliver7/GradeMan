@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:seekarc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/spinner"
+        layout="@layout/spinner" />
+
+    <TabHost
+        android:id="@+id/gradeTabHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/seekArcContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.91">
+
+                        <com.triggertrap.seekarc.SeekArc
+                            android:id="@+id/seekArc"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="30dp"
+                            seekarc:arcColor="@color/colorAccent"
+                            seekarc:progressColor="@color/colorAccent"
+                            seekarc:max="60"
+                            seekarc:progress="30"
+                            seekarc:rotation="180"
+                            seekarc:startAngle="30"
+                            seekarc:sweepAngle="300"
+                            seekarc:touchInside="true" />
+
+                        <TextView
+                            android:id="@+id/seekArcProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/defaultGrade"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add"
+                            android:id="@+id/addButtonTab1"
+                            android:layout_gravity="right|bottom" />
+
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/seekArcContainerWeighting"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.91">
+
+                        <com.triggertrap.seekarc.SeekArc
+                            android:id="@+id/weightingArk"
+                            android:layout_width="match_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:padding="30dp"
+                            seekarc:arcColor="@color/colorAccent"
+                            seekarc:progressColor="@color/colorAccent"
+                            seekarc:max="4"
+                            seekarc:progress="2"
+                            seekarc:rotation="180"
+                            seekarc:startAngle="30"
+                            seekarc:sweepAngle="300"
+                            seekarc:touchInside="true" />
+
+                        <TextView
+                            android:id="@+id/weightingProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/defaultWeightning"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add"
+                            android:id="@+id/addButtonTab2"
+                            android:layout_gravity="right|bottom"/>
+                    </FrameLayout>
+                </LinearLayout>
+
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+</LinearLayout>
