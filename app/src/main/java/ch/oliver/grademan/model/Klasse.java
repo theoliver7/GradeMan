@@ -1,13 +1,11 @@
 package ch.oliver.grademan.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by olive_000 on 1/29/2017.
  */
 
 public class Klasse {
-    private int klasse_id;
+    private int id_klasse;
     private String klassenname;
     private float gesamtschnitt;
     private long fachliste;
@@ -36,11 +34,11 @@ public class Klasse {
         this.gesamtschnitt = gesamtschnitt;
     }
 
-    public int getKlasse_id() {
-        return klasse_id;
+    public int getId_klasse() {
+        return id_klasse;
     }
 
-    public void setKlasse_id(int klasse_id) {
-        this.klasse_id = klasse_id;
+    public void setId_klasse(int id_klasse) {
+        this.id_klasse = id_klasse;
     }
 }

@@ -12,12 +12,13 @@ public class Fach {
     private float schnitt;
     private String abkrz;
 
-    public Fach(String name, long noten, int semester, float schnitt, String abkrz) {
+    public Fach(String name, long noten, int semester, float schnitt, String abkrz, long klasse_id) {
         this.name = name;
         this.klasse_id = noten;
         this.semester = semester;
         this.schnitt = schnitt;
         this.abkrz = abkrz;
+        this.klasse_id = klasse_id;
     }
 
     public Fach() {
@@ -69,5 +70,10 @@ public class Fach {
 
     public void setId_fach(int id_fach) {
         this.id_fach = id_fach;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

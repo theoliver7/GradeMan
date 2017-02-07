@@ -39,7 +39,7 @@ public class KlasseDAO extends DatabaseDAO{
         while(cursor.moveToNext()){
             klasse = new Klasse();
             klasse.setKlassenname(cursor.getString(cursor.getColumnIndex(KlasseSQL.KLASSE_NAME)));
-            klasse.setKlasse_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KlasseSQL.KEY_ID))));
+            klasse.setId_klasse(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KlasseSQL.KEY_ID))));
             klasse.setGesamtschnitt(Float.parseFloat(cursor.getString(cursor.getColumnIndex(KlasseSQL.GESAMTSCHNITT))));
             klassen.add(klasse);
         }

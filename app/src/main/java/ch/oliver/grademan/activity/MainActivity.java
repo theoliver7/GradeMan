@@ -4,10 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,21 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.oliver.grademan.R;
-import ch.oliver.grademan.adapter.FachArrayAdapter;
-import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.database.FachDAO;
-import ch.oliver.grademan.model.Klasse;
 import ch.oliver.grademan.database.KlasseDAO;
-import ch.oliver.grademan.model.Note;
-import ch.oliver.grademan.database.NoteDAO;
+import ch.oliver.grademan.model.Fach;
+import ch.oliver.grademan.model.Klasse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,52 +48,39 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                KlasseDAO kdao = new KlasseDAO(getApplicationContext());
+                final Menu menu = navigationView.getMenu();
+                navigationView.invalidate();
+                for (Klasse k : kdao.getAllKlassen()) {
+                    if (menu.findItem(k.getId_klasse()) == null) {
+                        menu.add(R.id.classes, k.getId_klasse(), 0, k.getKlassenname()).setIcon(R.drawable.ic_group_black);
+                    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                }
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        drawer.setDrawerListener(toggle);
+
+        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         //------------------------------TESTZONE
         listView= (ListView) findViewById(R.id.listView);
         List<Fach> faecher = new ArrayList<Fach>();
-        faecher.add(new Fach("Mathe",1,1,1,"Test"));
-        faecher.add(new Fach("English",2,1,1,"Test"));
-        faecher.add(new Fach("VBR",3,1,1,"Test"));
-
-
-
-        System.out.println("Test");
-        FachArrayAdapter fachArrayAdapter = new FachArrayAdapter(getApplicationContext(), getLayoutInflater(), new FachDAO(getApplicationContext()).getAllFaecher());
-        listView.setAdapter(fachArrayAdapter);
-
-        KlasseDAO kdao=new KlasseDAO(getApplicationContext());
-        Klasse klasse= new Klasse();
-        klasse.setKlasse_id(1);
-        klasse.setGesamtschnitt(3);
-        klasse.setKlassenname("HELLO");
-        kdao.klasseerstellen(klasse);
-
+        faecher.add(new Fach("Mathe", 1, 1, 1, "Test", 1));
+        faecher.add(new Fach("English", 2, 1, 1, "Test", 1));
+        faecher.add(new Fach("VBR", 3, 1, 1, "Test", 1));
         FachDAO fdao = new FachDAO(getApplicationContext());
-        Fach fach = new Fach("Mathe",2,22,(float)2.2,"m");
-        fach.setId_fach(1);
-        fdao.facherstellen(fach);
-
-        List klassen= new ArrayList<Klasse>();
-        klassen= new KlasseDAO(getApplicationContext()).getAllKlassen();
-
-        System.out.println("KLASSEN:"+klassen);
-
-        Note note = new Note("Test",(float)3.4,1,1);
-        NoteDAO ndao= new NoteDAO(getApplicationContext());
-        ndao.noteerstellen(note);
-        note.setNote(4);
-        ndao.noteerstellen(note);
-        System.out.println(ndao.getAllNotefromFach(fach));
+        fdao.facherstellen(new Fach("Deutsch", 1, 1, 1, "df", 1));
 
     }
 
@@ -138,15 +122,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_add) {
+        if (id == R.id.nav_add) {
             final EditText editText = new EditText(this);
 
             new AlertDialog.Builder(this)
@@ -169,6 +145,20 @@ public class MainActivity extends AppCompatActivity
                     .show();
         } else if (id == R.id.nav_send) {
 
+        } else {
+
+            Fragment classFragment = new ShowClassFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            Bundle args = new Bundle();
+            args.putInt("class_id", item.getItemId());
+            args.putString("classname", item.getTitle().toString());
+            classFragment.setArguments(args);
+
+            fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
+            System.out.println("fds");
+            Toast.makeText(getApplicationContext(), item.getTitle() + " " + item.getItemId(),
+                    Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
