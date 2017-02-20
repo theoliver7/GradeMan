@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fachName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fachname" />
+
+    <EditText
+        android:id="@+id/fachNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/abkürzung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Abkürzung" />
+
+    <EditText
+        android:id="@+id/abkürzungEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/semester"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Semester" />
+
+    <EditText
+        android:id="@+id/semesterEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/klassespinnertext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Klasse:" />
+
+    <Spinner
+        android:id="@+id/klassespinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="54dip"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="4dip"
+            android:paddingStart="2dip"
+            android:paddingEnd="2dip"
+            android:measureWithLargestChild="true">
+
+            <Button
+                android:id="@+id/buttoncancel"
+                android:layout_width="0dip"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/buttoncreatefach"
+                android:layout_width="0dip"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="Create" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

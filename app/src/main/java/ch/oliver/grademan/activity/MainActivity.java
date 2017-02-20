@@ -19,13 +19,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.oliver.grademan.R;
-import ch.oliver.grademan.database.FachDAO;
 import ch.oliver.grademan.database.KlasseDAO;
-import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.model.Klasse;
 
 public class MainActivity extends AppCompatActivity
@@ -42,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewGradeDialogFragment dialogFragment = new NewGradeDialogFragment();
+                NewNoteDialogFragment dialogFragment = new NewNoteDialogFragment();
                 dialogFragment.show(getFragmentManager(), "");
                 System.out.println("Test");
 
@@ -73,14 +68,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        //------------------------------TESTZONE
-        listView= (ListView) findViewById(R.id.listView);
-        List<Fach> faecher = new ArrayList<Fach>();
-        faecher.add(new Fach("Mathe", 1, 1, 1, "Test", 1));
-        faecher.add(new Fach("English", 2, 1, 1, "Test", 1));
-        faecher.add(new Fach("VBR", 3, 1, 1, "Test", 1));
-        FachDAO fdao = new FachDAO(getApplicationContext());
-        fdao.facherstellen(new Fach("Deutsch", 1, 1, 1, "df", 1));
+        // Fragment classFragment = new ShowNotenFragment();
+        //FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
 
     }
 
@@ -111,6 +101,9 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.addfach) {
+            NewFachDialogFragment dialogfragment = new NewFachDialogFragment();
+            dialogfragment.show(getFragmentManager(), "");
         }
 
         return super.onOptionsItemSelected(item);
@@ -147,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
         } else {
 
-            Fragment classFragment = new ShowClassFragment();
+            Fragment classFragment = new ShowKlasseFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
 
             Bundle args = new Bundle();
@@ -156,7 +149,6 @@ public class MainActivity extends AppCompatActivity
             classFragment.setArguments(args);
 
             fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
-            System.out.println("fds");
             Toast.makeText(getApplicationContext(), item.getTitle() + " " + item.getItemId(),
                     Toast.LENGTH_SHORT).show();
         }

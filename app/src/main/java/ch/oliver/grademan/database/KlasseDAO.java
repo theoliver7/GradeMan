@@ -24,7 +24,6 @@ public class KlasseDAO extends DatabaseDAO{
         ContentValues values = new ContentValues();
         values.put(KlasseSQL.KLASSE_NAME, klasse.getKlassenname());
         values.put(KlasseSQL.GESAMTSCHNITT, klasse.getGesamtschnitt());
-        values.put(KlasseSQL.FACH_ID,klasse.getFachliste());
         long klasse_id = db.insert(KlasseSQL.TABLE_KLASSE,null,values);
         return klasse_id;
     }

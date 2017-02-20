@@ -8,7 +8,6 @@ public class Klasse {
     private int id_klasse;
     private String klassenname;
     private float gesamtschnitt;
-    private long fachliste;
 
     public String getKlassenname() {
         return klassenname;
@@ -18,13 +17,6 @@ public class Klasse {
         this.klassenname = klassenname;
     }
 
-    public long getFachliste() {
-        return fachliste;
-    }
-
-    public void setFachliste(long fachliste) {
-        this.fachliste = fachliste;
-    }
 
     public float getGesamtschnitt() {
         return gesamtschnitt;

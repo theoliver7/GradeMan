@@ -18,16 +18,16 @@ import java.util.List;
 
 import ch.oliver.grademan.R;
 import ch.oliver.grademan.adapter.SpinnerArrayAdapter;
-import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.database.FachDAO;
 import ch.oliver.grademan.listener.AddGradeListener;
 import ch.oliver.grademan.listener.SeekArcListener;
+import ch.oliver.grademan.model.Fach;
 
 /**
  * Created by olive_000 on 1/30/2017.
  */
 
-public class NewGradeDialogFragment extends DialogFragment {
+public class NewNoteDialogFragment extends DialogFragment {
     private SeekArc seekArc, seekArcW;
     private TextView seekArcText;
     private TextView seekArcTextW;
@@ -67,12 +67,11 @@ public class NewGradeDialogFragment extends DialogFragment {
         FachDAO fdao= new FachDAO(getContext());
         List<Fach> faecher= new ArrayList<Fach>();
         faecher=fdao.getAllFaecher();
-        Fach[] faecherArray= faecher.toArray(new Fach[faecher.size()]);
 
-        SpinnerArrayAdapter spinnerArrayAdapter = new SpinnerArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line,faecherArray);
+        SpinnerArrayAdapter spinnerArrayAdapter = new SpinnerArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line, faecher);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(0);
+
         seekArc.setOnSeekArcChangeListener(new SeekArcListener(seekArcText, grades));
         seekArcW.setOnSeekArcChangeListener(new SeekArcListener(seekArcTextW, weightings));
         builder.setView(view);

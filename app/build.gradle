@@ -39,4 +39,6 @@ repositories {
 
 dependencies {
     compile 'com.github.Triggertrap:SeekArc:v1.1'
+    compile 'com.jjoe64:graphview:4.2.1'
+
 }
