@@ -44,24 +44,25 @@ public class ShowNotenFragment extends Fragment {
 
         fach.setId_fach(args.getInt("fach_id", 0));
         fach.setName(args.getString("fachname"));
-        System.out.println(fach.getId_fach());
         noten = ndao.getAllNotefromFach(fach);
         textView.setText(args.getString("fachname"));
-
-        NotenArrayAdapter notenArrayAdapter = new NotenArrayAdapter(getContext(), getActivity().getLayoutInflater(), noten);
         for (Note n : noten) {
             System.out.println("Note" + n.getNote());
+            System.out.println("N G" + n.getGewichtung());
         }
+        NotenArrayAdapter notenArrayAdapter = new NotenArrayAdapter(getContext(), getActivity().getLayoutInflater(), noten);
+
         listView.setAdapter(notenArrayAdapter);
         GraphView graph = (GraphView) myView.findViewById(R.id.graph);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
+
+        ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+
+        for (int i = 0; i < noten.size(); i++) {
+            dataPoints.add(new DataPoint(i, noten.get(i).getNote()));
+        }
+        DataPoint[] dataPointsArray = dataPoints.toArray(new DataPoint[dataPoints.size()]);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointsArray);
         series.setColor(Color.parseColor("#C5B358"));
         graph.addSeries(series);
 

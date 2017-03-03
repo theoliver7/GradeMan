@@ -32,10 +32,11 @@ public class NotenArrayAdapter extends ArrayAdapter<Note> {
         System.out.println(items.get(pos).getThema());
 
         convertView = inflater.inflate(R.layout.note_adapter, null);
-        Note actualFach = items.get(pos);
-        ((TextView) convertView.findViewById(R.id.notethematext)).setText(actualFach.getThema());
-        ((TextView) convertView.findViewById(R.id.notetext)).setText("" + actualFach.getNote());
-        ((TextView) convertView.findViewById(R.id.gewichtungtext)).setText(actualFach.getGewichtung() + "x");
+        Note note = items.get(pos);
+        ((TextView) convertView.findViewById(R.id.notethematext)).setText(note.getThema());
+        ((TextView) convertView.findViewById(R.id.notetext)).setText("" + note.getNote());
+        System.out.println("GEWICHTUNG: " + note.getGewichtung());
+        ((TextView) convertView.findViewById(R.id.gewichtungtext)).setText(note.getGewichtung() + "x");
         return convertView;
     }
 }

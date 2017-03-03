@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import ch.oliver.grademan.R;
@@ -34,7 +36,10 @@ public class FachArrayAdapter extends ArrayAdapter<Fach> {
         convertView = inflater.inflate(R.layout.fach_adapter, null);
         Fach actualFach = items.get(position);
         ((TextView) convertView.findViewById(R.id.fachName)).setText(actualFach.getName());
-        ((TextView) convertView.findViewById(R.id.fachSchnitt)).setText("" + actualFach.getSchnitt());
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        ((TextView) convertView.findViewById(R.id.fachSchnitt)).setText("" + df.format(actualFach.getSchnitt()));
         return convertView;
     }
 
@@ -46,7 +51,9 @@ public class FachArrayAdapter extends ArrayAdapter<Fach> {
         convertView = inflater.inflate(R.layout.fach_adapter, null);
         Fach actualFach = items.get(pos);
         ((TextView) convertView.findViewById(R.id.fachName)).setText(actualFach.getName());
-        ((TextView) convertView.findViewById(R.id.fachSchnitt)).setText("" + actualFach.getSchnitt());
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        ((TextView) convertView.findViewById(R.id.fachSchnitt)).setText("" + df.format(actualFach.getSchnitt()));
         return convertView;
     }
 

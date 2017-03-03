@@ -42,7 +42,9 @@ public class KlasseDAO extends DatabaseDAO{
             klasse.setGesamtschnitt(Float.parseFloat(cursor.getString(cursor.getColumnIndex(KlasseSQL.GESAMTSCHNITT))));
             klassen.add(klasse);
         }
+        cursor.close();
         close();
         return klassen;
     }
+
 }
