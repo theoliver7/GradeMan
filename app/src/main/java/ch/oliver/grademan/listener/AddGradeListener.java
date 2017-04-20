@@ -38,7 +38,11 @@ public class AddGradeListener implements View.OnClickListener {
             ndao.noteerstellen(note);
 
             Toast.makeText(v.getContext(), "Note erfolgreich zu " + fach.getName() + " hinzugefügt" + fach.getId_fach() + " " + note.getNote() + " " + note.getGewichtung(), Toast.LENGTH_SHORT).show();
+
             gradeDialogFragment.dismiss();
         }
+
+
     }
+
 }

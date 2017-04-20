@@ -3,7 +3,10 @@ package ch.oliver.grademan.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +38,23 @@ public class NewNoteDialogFragment extends DialogFragment {
     private Button addButton, addButton2;
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        Fragment classFragment = new ShowNotenFragment();
+        Fach fach = new Fach();
+        fach.setId_fach(1);
+        fach.setName("Modul");
+        Bundle args = new Bundle();
+        args.putInt("fach_id", fach.getId_fach());
+        args.putString("fachname", fach.getName());
+        classFragment.setArguments(args);
+
+        // fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
+
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -64,9 +84,9 @@ public class NewNoteDialogFragment extends DialogFragment {
         spinner = (Spinner) view.findViewById(R.id.spinner2);
 
 
-        FachDAO fdao= new FachDAO(getContext());
-        List<Fach> faecher= new ArrayList<Fach>();
-        faecher=fdao.getAllFaecher();
+        FachDAO fdao = new FachDAO(getContext());
+        List<Fach> faecher = new ArrayList<Fach>();
+        faecher = fdao.getAllFaecher();
 
         SpinnerArrayAdapter spinnerArrayAdapter = new SpinnerArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line, faecher);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);

@@ -31,6 +31,7 @@ public class ShowNotenFragment extends Fragment {
     private TextView textView;
     private ListView listView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
