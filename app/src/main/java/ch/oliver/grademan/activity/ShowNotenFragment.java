@@ -60,7 +60,7 @@ public class ShowNotenFragment extends Fragment {
         ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
         for (int i = 0; i < noten.size(); i++) {
-            dataPoints.add(new DataPoint(i, noten.get(i).getNote()));
+            dataPoints.add(new DataPoint(i + 1, noten.get(i).getNote()));
         }
         DataPoint[] dataPointsArray = dataPoints.toArray(new DataPoint[dataPoints.size()]);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointsArray);
