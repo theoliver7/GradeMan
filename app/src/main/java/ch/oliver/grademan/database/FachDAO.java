@@ -88,7 +88,7 @@ public class FachDAO extends DatabaseDAO {
         System.out.println(DatabaseUtils.dumpCursorToString(cursor));
         while (cursor.moveToNext()) {
             note = Float.parseFloat(cursor.getString(cursor.getColumnIndex(NoteSQL.NOTE)));
-            gewichtung = Integer.parseInt(cursor.getString(cursor.getColumnIndex(NoteSQL.GEWICHTUNG)));
+            gewichtung = Float.parseFloat(cursor.getString(cursor.getColumnIndex(NoteSQL.GEWICHTUNG)));
             System.out.println(note);
 
             schnitt = schnitt + note * gewichtung;

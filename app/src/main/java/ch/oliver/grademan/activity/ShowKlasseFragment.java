@@ -1,9 +1,9 @@
 package ch.oliver.grademan.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class ShowKlasseFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment classFragment = new ShowNotenFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
                 Fach fach = (Fach) fachArrayAdapter.getItem(position);
                 System.out.println(fach.getName());
                 Bundle args = new Bundle();

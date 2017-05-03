@@ -17,7 +17,7 @@ public class FachSQL {
     public static String getSqlQueryForCreateTableFach() {
         return "CREATE TABLE "
                 + TABLE_FACH + "(" + KEY_ID + " INTEGER PRIMARY KEY," + FACH_NAME
-                + " TEXT," + SEMESTER + " INTEGER," + SCHNITT + " FLOAT," + ABKRZ + " TEXT," + KLASSE_ID + " INTEGER)";
+                + " TEXT, " + SEMESTER + " INTEGER," + SCHNITT + " FLOAT," + ABKRZ + " TEXT," + KLASSE_ID + " INTEGER)";
     }
 
 }

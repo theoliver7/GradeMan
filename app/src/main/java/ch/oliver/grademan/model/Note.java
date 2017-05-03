@@ -10,6 +10,7 @@ public class Note {
     private float note;
     private float gewichtung;
     private int fach_id;
+    private int semester;
 
     public Note(String thema, float note, float gewichtung, int fach_id) {
         this.thema = thema;
@@ -59,5 +60,13 @@ public class Note {
 
     public void setFach_id(int fach_id) {
         this.fach_id = fach_id;
+    }
+
+    public int getSemester() {
+        return semester;
+    }
+
+    public void setSemester(int semester) {
+        this.semester = semester;
     }
 }

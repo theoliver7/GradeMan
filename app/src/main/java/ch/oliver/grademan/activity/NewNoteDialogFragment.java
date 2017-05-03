@@ -3,10 +3,8 @@ package ch.oliver.grademan.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,22 +35,6 @@ public class NewNoteDialogFragment extends DialogFragment {
     private Spinner spinner;
     private Button addButton, addButton2;
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
-        Fragment classFragment = new ShowNotenFragment();
-        Fach fach = new Fach();
-        fach.setId_fach(1);
-        fach.setName("Modul");
-        Bundle args = new Bundle();
-        args.putInt("fach_id", fach.getId_fach());
-        args.putString("fachname", fach.getName());
-        classFragment.setArguments(args);
-
-        // fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
-
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -75,8 +57,7 @@ public class NewNoteDialogFragment extends DialogFragment {
         tabHost.addTab(tab2);
         addButton = (Button) view.findViewById(R.id.addButtonTab1);
         addButton2 = (Button) view.findViewById(R.id.addButtonTab2);
-        addButton.setOnClickListener(new AddGradeListener(this));
-        addButton2.setOnClickListener(new AddGradeListener(this));
+
         seekArc = (SeekArc) view.findViewById(R.id.seekArc);
         seekArcText = (TextView) view.findViewById(R.id.seekArcProgress);
         seekArcW = (SeekArc) view.findViewById(R.id.weightingArk);
@@ -94,8 +75,15 @@ public class NewNoteDialogFragment extends DialogFragment {
 
         seekArc.setOnSeekArcChangeListener(new SeekArcListener(seekArcText, grades));
         seekArcW.setOnSeekArcChangeListener(new SeekArcListener(seekArcTextW, weightings));
+        addButton.setOnClickListener(new AddGradeListener(this, (Fach) spinner.getSelectedItem()));
+        addButton2.setOnClickListener(new AddGradeListener(this, (Fach) spinner.getSelectedItem()));
         builder.setView(view);
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
     }
 
     public List<String> fillGrades() {

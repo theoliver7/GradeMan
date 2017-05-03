@@ -3,6 +3,8 @@ package ch.oliver.grademan.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +68,17 @@ public class NewFachDialogFragment extends DialogFragment {
                 fdao.facherstellen(fach);
 
                 getDialog().dismiss();
+                Fragment classFragment = new ShowKlasseFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+
+                Bundle args = new Bundle();
+                args.putInt("class_id", klasse.getId_klasse());
+                args.putString("classname", klasse.getKlassenname());
+                classFragment.setArguments(args);
+
+                fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
+
+
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

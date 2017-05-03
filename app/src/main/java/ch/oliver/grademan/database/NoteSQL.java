@@ -10,13 +10,14 @@ public class NoteSQL {
     public static final String THEMA="Thema";
     public static final String NOTE= "Note";
     public static final String GEWICHTUNG="Gewichtung";
+    public static final String SEMESTER = "Semester";
     public static final String FACH_ID="Fach_ID";
 
 
     public static String getSqlQueryForCreateTableNote() {
         return "CREATE TABLE "
                 + TABLE_NOTE + "(" + KEY_ID + " INTEGER PRIMARY KEY," + THEMA
-                + " TEXT," + NOTE + " FLOAT," + GEWICHTUNG + " FLOAT,"+FACH_ID+" INTEGER)";
+                + " TEXT," + NOTE + " FLOAT," + GEWICHTUNG + " FLOAT," + SEMESTER + " INTEGER," + FACH_ID + " INTEGER)";
     }
 
 

@@ -46,7 +46,7 @@ public class NoteDAO extends DatabaseDAO {
             note.setNote(Float.parseFloat(cursor.getString(cursor.getColumnIndex(NoteSQL.NOTE))));
             note.setFach_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(NoteSQL.FACH_ID))));
             note.setThema(cursor.getString(cursor.getColumnIndex(NoteSQL.KEY_ID)));
-            note.setGewichtung(Integer.parseInt(cursor.getString(cursor.getColumnIndex(NoteSQL.GEWICHTUNG))));
+            note.setGewichtung(Float.parseFloat(cursor.getString(cursor.getColumnIndex(NoteSQL.GEWICHTUNG))));
             System.out.println("Faach: " + note.getFach_id());
             noten.add(note);
         }
