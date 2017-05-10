@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -18,11 +17,11 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -136,24 +135,39 @@ public class ShowNotenFragment extends Fragment {
         fach.setName(args.getString("fachname"));
         noten = ndao.getAllNotefromFach(fach);
         textView.setText(args.getString("fachname"));
-        for (Note n : noten) {
-            System.out.println("Note" + n.getNote());
-            System.out.println("N G" + n.getGewichtung());
+        ArrayList<String> notenanzlabel = new ArrayList<>();
+
+        ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+        for (int i = 0; i < noten.size(); i++) {
+            notenanzlabel.add(Integer.toString(i + 1));
+            dataPoints.add(new DataPoint(i + 1, noten.get(i).getNote()));
         }
+
         NotenArrayAdapter notenArrayAdapter = new NotenArrayAdapter(getContext(), getActivity().getLayoutInflater(), noten);
         NotenArrayRecycleAdapter nara = new NotenArrayRecycleAdapter(noten);
         recycleView.setAdapter(nara);
         GraphView graph = (GraphView) myView.findViewById(R.id.graph);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setMaxX(noten.size());
 
+        // set manual Y bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(1);
+        graph.getViewport().setMaxY(6);
 
-        ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        staticLabelsFormatter.setVerticalLabels(new String[]{"1", "2", "3", "4", "5", "6"});
+        staticLabelsFormatter.setHorizontalLabels(notenanzlabel.toArray(new String[0]));
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
-        for (int i = 0; i < noten.size(); i++) {
-            dataPoints.add(new DataPoint(i + 1, noten.get(i).getNote()));
-        }
         DataPoint[] dataPointsArray = dataPoints.toArray(new DataPoint[dataPoints.size()]);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointsArray);
         series.setColor(Color.parseColor("#C5B358"));
+        series.setDrawDataPoints(true);
+
+
+
         graph.addSeries(series);
 
         return myView;
