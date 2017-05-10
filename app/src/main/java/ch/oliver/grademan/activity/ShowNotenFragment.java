@@ -147,19 +147,28 @@ public class ShowNotenFragment extends Fragment {
         NotenArrayRecycleAdapter nara = new NotenArrayRecycleAdapter(noten);
         recycleView.setAdapter(nara);
         GraphView graph = (GraphView) myView.findViewById(R.id.graph);
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(1);
-        graph.getViewport().setMaxX(noten.size());
+        if (dataPoints.size() > 0) {
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(1);
+            graph.getViewport().setMaxX(noten.size());
 
-        // set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(1);
-        graph.getViewport().setMaxY(6);
+            // set manual Y bounds
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setMinY(1);
+            graph.getViewport().setMaxY(6);
 
-        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setVerticalLabels(new String[]{"1", "2", "3", "4", "5", "6"});
-        staticLabelsFormatter.setHorizontalLabels(notenanzlabel.toArray(new String[0]));
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+            StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+            staticLabelsFormatter.setVerticalLabels(new String[]{"1", "2", "3", "4", "5", "6"});
+            if (notenanzlabel.size() <= 2) {
+                staticLabelsFormatter.setHorizontalLabels(new String[]{"1", "2"});
+            } else {
+                staticLabelsFormatter.setHorizontalLabels(notenanzlabel.toArray(new String[0]));
+            }
+            graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+        }
+
+
 
         DataPoint[] dataPointsArray = dataPoints.toArray(new DataPoint[dataPoints.size()]);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPointsArray);
