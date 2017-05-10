@@ -1,6 +1,7 @@
 package ch.oliver.grademan.activity;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,7 +43,8 @@ public class ShowNotenFragment extends Fragment {
     private View myView;
     private TextView textView;
     private RecyclerView recycleView;
-
+    private NoteDAO ndao;
+    private ArrayList<Note> noten;
 
     @Nullable
     @Override
@@ -54,8 +57,8 @@ public class ShowNotenFragment extends Fragment {
         recycleView.setLayoutManager(layoutManager);
         recycleView.setItemAnimator(new DefaultItemAnimator());
         Bundle args = getArguments();
-        NoteDAO ndao = new NoteDAO(getContext());
-        ArrayList<Note> noten = new ArrayList<Note>();
+        ndao = new NoteDAO(getContext());
+        noten = new ArrayList<>();
         Fach fach = new Fach();
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -66,10 +69,11 @@ public class ShowNotenFragment extends Fragment {
 
             private void init() {
                 background = new ColorDrawable(Color.RED);
-                xMark = ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black);
+                xMark = ContextCompat.getDrawable(getActivity(), R.mipmap.ic_delete);
                 //xMarkMargin = (int) getActivity().getResources().getDimension(R.dimen.ic_clear_margin);
                 initiated = true;
             }
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -77,37 +81,51 @@ public class ShowNotenFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-
+                long noteId = noten.get(viewHolder.getPosition()).getId_note();
+                //  ndao.noteloeschen(noteId);
+                Toast.makeText(getActivity(), "Swiped", Toast.LENGTH_SHORT).show();
+                Fragment frg = null;
+                frg = getActivity().getFragmentManager().findFragmentByTag("noten_fragment");
+                final FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+                ft.detach(frg);
+                ft.attach(frg);
+                ft.commit();
+                Snackbar.make(getActivity().findViewById(android.R.id.content), "Had a snack at Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", null)
+                        .setActionTextColor(Color.RED)
+                        .show();
             }
+
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 View itemView = viewHolder.itemView;
+                    if (viewHolder.getAdapterPosition() == -1) {
+                        return;
+                    }
 
-                if (viewHolder.getAdapterPosition() == -1) {
-                    return;
+                    if (!initiated) {
+                        init();
+                    }
+                    if (dX > 0) {
+                        background.setBounds(itemView.getLeft(), itemView.getTop(), (int) dX, itemView.getBottom());
+                    } else {
+                        background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    }
+                    background.draw(c);
+
+                    // draw x mark
+                    int itemHeight = itemView.getBottom() - itemView.getTop();
+                    int intrinsicWidth = xMark.getIntrinsicWidth();
+                    int intrinsicHeight = xMark.getIntrinsicWidth();
+
+                    int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
+                    int xMarkRight = itemView.getRight() - xMarkMargin;
+                    int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
+                    int xMarkBottom = xMarkTop + intrinsicHeight;
+                    xMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
+                    xMark.draw(c);
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 }
-
-                if (!initiated) {
-                    init();
-                }
-                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                background.draw(c);
-
-                // draw x mark
-                int itemHeight = itemView.getBottom() - itemView.getTop();
-//                int intrinsicWidth = xMark.getIntrinsicWidth();
-//                int intrinsicHeight = xMark.getIntrinsicWidth();
-//
-//                int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
-//                int xMarkRight = itemView.getRight() - xMarkMargin;
-//                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight)/2;
-//                int xMarkBottom = xMarkTop + intrinsicHeight;
-//                xMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
-//
-//                xMark.draw(c);
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);

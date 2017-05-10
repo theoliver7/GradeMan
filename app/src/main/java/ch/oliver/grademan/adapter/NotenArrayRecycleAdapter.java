@@ -69,4 +69,7 @@ public class NotenArrayRecycleAdapter extends RecyclerView.Adapter<NotenArrayRec
     public int getItemCount() {
         return items.size();
     }
+    public int getId(int position){
+        return items.get(position).getId_note();
+    }
 }

@@ -31,7 +31,13 @@ public class NoteDAO extends DatabaseDAO {
         long note_id = db.insert(NoteSQL.NOTE,null,values);
         return note_id;
     }
-
+    public void noteloeschen(long noteId){
+        open();
+        long id = noteId;
+        db.delete(NoteSQL.TABLE_NOTE, NoteSQL.KEY_ID
+                + " = " + id, null);
+        close();
+    }
     public ArrayList<Note> getAllNotefromFach(Fach fach) {
         ArrayList<Note> noten = new ArrayList<Note>();
         Note note;

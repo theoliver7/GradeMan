@@ -56,7 +56,7 @@ public class ShowKlasseFragment extends Fragment {
                 args.putString("fachname", fach.getName());
                 classFragment.setArguments(args);
 
-                fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, classFragment,"noten_fragment").commit();
             }
 
         });
