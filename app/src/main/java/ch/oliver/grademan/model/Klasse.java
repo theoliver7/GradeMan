@@ -1,13 +1,26 @@
 package ch.oliver.grademan.model;
 
+import java.util.List;
+
 /**
  * Created by olive_000 on 1/29/2017.
  */
 
 public class Klasse {
     private int id_klasse;
+
     private String klassenname;
     private float gesamtschnitt;
+    private int is_favorite_klasse;
+    private List<Fach> faecher;
+
+    public int getIs_favorite_klasse() {
+        return is_favorite_klasse;
+    }
+
+    public void setIs_favorite_klasse(int is_favorite_klasse) {
+        this.is_favorite_klasse = is_favorite_klasse;
+    }
 
     public String getKlassenname() {
         return klassenname;
@@ -32,5 +45,24 @@ public class Klasse {
 
     public void setId_klasse(int id_klasse) {
         this.id_klasse = id_klasse;
+    }
+
+    public void setFaecher(List<Fach> faecher) {
+        this.faecher = faecher;
+    }
+
+    public List<Fach> getFaecher() {
+        return faecher;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Klasse{" +
+                "id_klasse=" + id_klasse +
+                ", klassenname='" + klassenname + '\'' +
+                ", gesamtschnitt=" + gesamtschnitt +
+                ", is_favorite_klasse=" + is_favorite_klasse +
+                '}';
     }
 }
