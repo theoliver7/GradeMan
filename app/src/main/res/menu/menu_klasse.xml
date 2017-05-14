@@ -11,12 +11,12 @@
         android:orderInCategory="100"
         android:title="@string/addfach"
         android:icon="@drawable/ic_make_favorite"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/addfach"
         android:orderInCategory="100"
         android:title="@string/addfach"
         android:icon="@mipmap/ic_plus"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

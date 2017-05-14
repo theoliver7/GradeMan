@@ -11,9 +11,6 @@ import java.util.List;
 import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.model.Klasse;
 
-/**
- * Created by olive_000 on 1/29/2017.
- */
 
 public class FachDAO extends DatabaseDAO {
     public FachDAO(Context context) {
@@ -28,12 +25,11 @@ public class FachDAO extends DatabaseDAO {
         values.put(FachSQL.SCHNITT, fach.getSchnitt());
         values.put(FachSQL.SEMESTER,fach.getSemester());
         values.put(FachSQL.KLASSE_ID, fach.getKlasse_id());
-        long klasse_id = db.insert(FachSQL.TABLE_FACH,null,values);
-        return klasse_id;
+       return db.insert(FachSQL.TABLE_FACH,null,values);
     }
 
     public ArrayList<Fach> getAllFacherfromClass(Klasse klasse) {
-        ArrayList<Fach> facher = new ArrayList<Fach>();
+        ArrayList<Fach> facher = new ArrayList<>();
         Fach fach;
         open();
         //Cursor cursor = db.query(FachSQL.TABLE_FACH, new String[]{FachSQL.KEY_ID, FachSQL.SEMESTER, FachSQL.SCHNITT, FachSQL.KLASSE_ID, FachSQL.ABKRZ, FachSQL.FACH_NAME}, FachSQL.KLASSE_ID + "=?", new String[]{Integer.toBinaryString(klasse.getId_klasse())}, null, null, null, null);
@@ -56,7 +52,7 @@ public class FachDAO extends DatabaseDAO {
 
 
     public List<Fach> getAllFaecher(){
-        List<Fach> faecher= new ArrayList<Fach>();
+        List<Fach> faecher= new ArrayList<>();
         Fach fach;
         open();
 
@@ -77,10 +73,10 @@ public class FachDAO extends DatabaseDAO {
         return faecher;
     }
 
-    public float calculateSchnitt(Fach fach) {
+    private float calculateSchnitt(Fach fach) {
         float schnitt = 0;
-        float note = 0;
-        float gewichtung = 0;
+        float note;
+        float gewichtung;
         float gesamtgewichtung = 0;
         open();
         //  Cursor cursor = db.query(NoteSQL.TABLE_NOTE, new String[]{NoteSQL.KEY_ID, NoteSQL.GEWICHTUNG, NoteSQL.NOTE, NoteSQL.THEMA, NoteSQL.FACH_ID}, NoteSQL.FACH_ID + "= ?", new String[]{Integer.toBinaryString(fach.getId_fach())}, null, null, null, null);

@@ -28,22 +28,18 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 
 import ch.oliver.grademan.R;
-import ch.oliver.grademan.adapter.NotenArrayAdapter;
 import ch.oliver.grademan.adapter.NotenArrayRecycleAdapter;
 import ch.oliver.grademan.database.NoteDAO;
 import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.model.Note;
 
-/**
- * Created by olive_000 on 2/8/2017.
- */
 
 public class ShowNotenFragment extends Fragment {
-    private View myView;
-    private TextView textView;
-    private RecyclerView recycleView;
-    private NoteDAO ndao;
-    private ArrayList<Note> noten;
+    View myView;
+    TextView textView;
+    RecyclerView recycleView;
+    NoteDAO ndao;
+    ArrayList<Note> noten;
 
     @Nullable
     @Override
@@ -80,11 +76,8 @@ public class ShowNotenFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                long noteId = noten.get(viewHolder.getPosition()).getId_note();
-                //  ndao.noteloeschen(noteId);
                 Toast.makeText(getActivity(), "Swiped", Toast.LENGTH_SHORT).show();
-                Fragment frg = null;
-                frg = getActivity().getFragmentManager().findFragmentByTag("noten_fragment");
+                Fragment frg = getActivity().getFragmentManager().findFragmentByTag("noten_fragment");
                 final FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
                 ft.detach(frg);
                 ft.attach(frg);
@@ -137,13 +130,12 @@ public class ShowNotenFragment extends Fragment {
         textView.setText(args.getString("fachname"));
         ArrayList<String> notenanzlabel = new ArrayList<>();
 
-        ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+        ArrayList<DataPoint> dataPoints = new ArrayList<>();
         for (int i = 0; i < noten.size(); i++) {
             notenanzlabel.add(Integer.toString(i + 1));
             dataPoints.add(new DataPoint(i + 1, noten.get(i).getNote()));
         }
 
-        NotenArrayAdapter notenArrayAdapter = new NotenArrayAdapter(getContext(), getActivity().getLayoutInflater(), noten);
         NotenArrayRecycleAdapter nara = new NotenArrayRecycleAdapter(noten);
         recycleView.setAdapter(nara);
         GraphView graph = (GraphView) myView.findViewById(R.id.graph);

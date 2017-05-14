@@ -2,10 +2,6 @@ package ch.oliver.grademan.model;
 
 import java.util.List;
 
-/**
- * Created by olive_000 on 1/29/2017.
- */
-
 public class Klasse {
     private int id_klasse;
 

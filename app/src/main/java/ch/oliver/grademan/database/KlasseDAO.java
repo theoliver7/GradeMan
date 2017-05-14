@@ -9,10 +9,6 @@ import java.util.List;
 
 import ch.oliver.grademan.model.Klasse;
 
-/**
- * Created by olive_000 on 1/29/2017.
- */
-
 public class KlasseDAO extends DatabaseDAO{
 
     public KlasseDAO(Context context) {
@@ -40,6 +36,7 @@ public class KlasseDAO extends DatabaseDAO{
             klasse.setGesamtschnitt(Float.parseFloat(cursor.getString(cursor.getColumnIndex(KlasseSQL.GESAMTSCHNITT))));
             klasse.setIs_favorite_klasse(Integer.parseInt(cursor.getString((cursor.getColumnIndex(KlasseSQL.IS_FAVORITE_KLASSE)))));
         }
+        cursor.close();
         close();
         return klasse;
     }
@@ -54,6 +51,7 @@ public class KlasseDAO extends DatabaseDAO{
             klasse.setGesamtschnitt(Float.parseFloat(cursor.getString(cursor.getColumnIndex(KlasseSQL.GESAMTSCHNITT))));
             klasse.setIs_favorite_klasse(Integer.parseInt(cursor.getString((cursor.getColumnIndex(KlasseSQL.IS_FAVORITE_KLASSE)))));
         }
+        cursor.close();
         close();
         return klasse;
     }
@@ -68,7 +66,7 @@ public class KlasseDAO extends DatabaseDAO{
         close();
     }
     public List<Klasse> getAllKlassen(){
-        List<Klasse> klassen= new ArrayList<Klasse>();
+        List<Klasse> klassen= new ArrayList<>();
         Klasse klasse;
         open();
 

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.oliver.grademan.R;
@@ -24,17 +24,15 @@ import ch.oliver.grademan.database.KlasseDAO;
 import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.model.Klasse;
 
-/**
- * Created by olive_000 on 2/7/2017.
- */
 
 public class ShowKlasseFragment extends Fragment {
-    private View myView;
-    private TextView textView;
-    private ListView listView;
+
+    MainActivity mainActivity;
+    View myView;
+    TextView textView;
+    ListView listView;
     private KlasseDAO kdao;
     private Klasse currentKlasse;
-    private MainActivity mainActivity;
 
     public ShowKlasseFragment() {
         setHasOptionsMenu(true);
@@ -50,11 +48,9 @@ public class ShowKlasseFragment extends Fragment {
         listView = (ListView) myView.findViewById(R.id.classliste);
         Bundle args = getArguments();
         FachDAO fdao = new FachDAO(getContext());
-        //Klasse klasse = new Klasse();
         currentKlasse = kdao.getKlasseById(args.getInt("class_id", 0));
         getActivity().setTitle(currentKlasse.getKlassenname());
-        //klasse.setId_klasse(args.getInt("class_id", 0));
-        ArrayList<Fach> facher = new ArrayList<Fach>();
+        List<Fach> facher;
         facher = fdao.getAllFacherfromClass(currentKlasse);
         currentKlasse.setFaecher(facher);
         mainActivity.setCurrenKlasse(currentKlasse);
@@ -67,13 +63,13 @@ public class ShowKlasseFragment extends Fragment {
                 Fragment classFragment = new ShowNotenFragment();
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 Fach fach = fachArrayAdapter.getItem(position);
-                System.out.println(fach.getName());
-                Bundle args = new Bundle();
-                args.putInt("fach_id", fach.getId_fach());
-                args.putString("fachname", fach.getName());
-                classFragment.setArguments(args);
-
-                fragmentManager.beginTransaction().replace(R.id.flContent, classFragment, "noten_fragment").commit();
+                if(fach !=null) {
+                    Bundle args = new Bundle();
+                    args.putInt("fach_id", fach.getId_fach());
+                    args.putString("fachname", fach.getName());
+                    classFragment.setArguments(args);
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContent, classFragment, "noten_fragment").addToBackStack(null).commit();
             }
 
         });
@@ -107,11 +103,11 @@ public class ShowKlasseFragment extends Fragment {
             dialogfragment.show(getFragmentManager(), "");
         } else if (id == R.id.favoriteKlasse || id==R.id.isFavoriteKlasse) {
             Klasse klasse = kdao.getKlasseById(currentKlasse.getId_klasse());
-            if (currentKlasse.getIs_favorite_klasse()==1){//item.getIcon() == getResources().getDrawable(R.drawable.ic_is_favorite)) {
-                item.setIcon(getResources().getDrawable(R.drawable.ic_make_favorite));
+            if (klasse.getIs_favorite_klasse()==1){//item.getIcon() == getResources().getDrawable(R.drawable.ic_is_favorite)) {
+                item.setIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.ic_make_favorite,null));
                 klasse.setIs_favorite_klasse(0);
             } else {
-                item.setIcon(getResources().getDrawable(R.drawable.ic_is_favorite));
+                item.setIcon( ResourcesCompat.getDrawable(getResources(),R.drawable.ic_is_favorite,null));
                 klasse.setIs_favorite_klasse(1);
             }
             kdao.makeFavoriteKlasse(klasse);

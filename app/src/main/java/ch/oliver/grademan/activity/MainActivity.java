@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,12 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import ch.oliver.grademan.R;
 import ch.oliver.grademan.database.KlasseDAO;
@@ -28,9 +25,10 @@ import ch.oliver.grademan.model.Klasse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Klasse favoriteKlasse;
-    private Klasse currenKlasse;
+    Klasse favoriteKlasse;
+    Klasse currenKlasse;
     private KlasseDAO kdao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +38,20 @@ public class MainActivity extends AppCompatActivity
 
         kdao = new KlasseDAO(getApplicationContext());
         favoriteKlasse = kdao.getFavoriteKlasse();
-        if(favoriteKlasse!=null){
+        if (favoriteKlasse != null) {
             showKlasseFragment(favoriteKlasse);
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currenKlasse ==null){
+                if (currenKlasse == null) {
                     Toast.makeText(getApplicationContext(), "Wählen Sie zuerst eine Klasse aus",
                             Toast.LENGTH_SHORT).show();
-                }else if(currenKlasse.getFaecher().size()==0){
+                } else if (currenKlasse.getFaecher().size() == 0) {
                     Toast.makeText(getApplicationContext(), "Erstellen Sie zuerst ein Fach für diese Klasse",
                             Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     NewNoteDialogFragment dialogFragment = new NewNoteDialogFragment();
                     dialogFragment.show(getFragmentManager(), "");
                     System.out.println("Test");
@@ -80,22 +78,18 @@ public class MainActivity extends AppCompatActivity
                 super.onDrawerOpened(drawerView);
             }
         };
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
 
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        // Fragment classFragment = new ShowNotenFragment();
-        //FragmentManager fragmentManager = getSupportFragmentManager();
-        //fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
-
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -129,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -142,12 +136,12 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                            KlasseDAO kdao= new KlasseDAO(getApplicationContext());
+                            KlasseDAO kdao = new KlasseDAO(getApplicationContext());
                             Klasse klasse = new Klasse();
                             klasse.setIs_favorite_klasse(0);
                             klasse.setKlassenname(editText.getText().toString());
-                            long id= kdao.klasseerstellen(klasse);
-                            if(id!=-1) {
+                            long id = kdao.klasseerstellen(klasse);
+                            if (id != -1) {
                                 //showKlasseFragment(klasse);
                             }
                         }
@@ -173,7 +167,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void showKlasseFragment(Klasse klasse){
+
+    public void showKlasseFragment(Klasse klasse) {
         Fragment classFragment = new ShowKlasseFragment();
         FragmentManager fragmentManager = getFragmentManager();
 
@@ -181,12 +176,7 @@ public class MainActivity extends AppCompatActivity
         args.putInt("class_id", klasse.getId_klasse());
         args.putString("classname", klasse.getKlassenname());
         classFragment.setArguments(args);
-
-        fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
-    }
-
-    public Klasse getCurrenKlasse() {
-        return currenKlasse;
+        fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).addToBackStack(null).commit();
     }
 
     public void setCurrenKlasse(Klasse currenKlasse) {

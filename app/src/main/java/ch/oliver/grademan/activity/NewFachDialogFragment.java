@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.oliver.grademan.R;
@@ -22,9 +21,6 @@ import ch.oliver.grademan.database.KlasseDAO;
 import ch.oliver.grademan.model.Fach;
 import ch.oliver.grademan.model.Klasse;
 
-/**
- * Created by olive_000 on 2/7/2017.
- */
 
 public class NewFachDialogFragment extends DialogFragment {
 
@@ -32,7 +28,7 @@ public class NewFachDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fach_dialog, null);
+        View view = inflater.inflate(R.layout.fach_dialog,null);
 
 
         final EditText fachnameedit = (EditText) view.findViewById(R.id.fachNameEdit);
@@ -41,8 +37,7 @@ public class NewFachDialogFragment extends DialogFragment {
         final Spinner spinner = (Spinner) view.findViewById(R.id.klassespinner);
 
         KlasseDAO kdao = new KlasseDAO(getContext());
-        List<Klasse> klassen = new ArrayList<Klasse>();
-        klassen = kdao.getAllKlassen();
+        List<Klasse> klassen = kdao.getAllKlassen();
         Klasse[] klassenarray = klassen.toArray(new Klasse[klassen.size()]);
 
         KlassenSpinnerArrayAdapter spinnerArrayAdapter = new KlassenSpinnerArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line, klassenarray);

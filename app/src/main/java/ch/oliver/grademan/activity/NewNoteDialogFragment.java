@@ -5,12 +5,14 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.triggertrap.seekarc.SeekArc;
 
@@ -24,16 +26,12 @@ import ch.oliver.grademan.listener.AddGradeListener;
 import ch.oliver.grademan.listener.SeekArcListener;
 import ch.oliver.grademan.model.Fach;
 
-/**
- * Created by olive_000 on 1/30/2017.
- */
-
 public class NewNoteDialogFragment extends DialogFragment {
-    private SeekArc seekArc, seekArcW;
+    SeekArc seekArc, seekArcW;
     private TextView seekArcText;
     private TextView seekArcTextW;
     private Spinner spinner;
-    private Button addButton, addButton2;
+    Button addButton, addButton2;
 
 
     @Override
@@ -63,11 +61,20 @@ public class NewNoteDialogFragment extends DialogFragment {
         seekArcW = (SeekArc) view.findViewById(R.id.weightingArk);
         seekArcTextW = (TextView) view.findViewById(R.id.weightingProgress);
         spinner = (Spinner) view.findViewById(R.id.spinner2);
-
+        seekArcText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekArcText.setCursorVisible(true);
+                seekArcText.setFocusableInTouchMode(true);
+                seekArcText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                seekArcText.requestFocus();
+                Toast.makeText(getActivity().getApplicationContext(), "Text",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         FachDAO fdao = new FachDAO(getContext());
-        List<Fach> faecher = new ArrayList<Fach>();
-        faecher = fdao.getAllFaecher();
+        List<Fach> faecher = fdao.getAllFaecher();
 
         SpinnerArrayAdapter spinnerArrayAdapter = new SpinnerArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line, faecher);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -101,9 +108,9 @@ public class NewNoteDialogFragment extends DialogFragment {
     public List<String> fillWeightnings() {
         List<String> list = new ArrayList<>();
         double[] values = {0.25, 0.5, 1.0, 1.5, 2.0};
-        for (int i = 0; i < values.length; i++) {
-            list.add(String.valueOf(values[i]) + "x");
-        }
+            for(double value : values){
+                list.add(String.valueOf(value) + "x");
+            }
         return list;
     }
 
@@ -115,11 +122,7 @@ public class NewNoteDialogFragment extends DialogFragment {
         return spinner;
     }
 
-    public void setSpinner(Spinner spinner) {
-        this.spinner = spinner;
-    }
-
-    private List<String> grades, weightings;
+    List<String> grades, weightings;
 
     public TextView getSeekArcTextW() {
         return seekArcTextW;
