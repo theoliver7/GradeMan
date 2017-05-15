@@ -50,12 +50,13 @@ public class AddGradeListener implements View.OnClickListener {
 
 
             System.out.println(fach.getName());
+
             Bundle args = new Bundle();
             args.putInt("fach_id", fach.getId_fach());
             args.putString("fachname", fach.getName());
             classFragment.setArguments(args);
 
-            fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, classFragment).addToBackStack(null).commit();
 
 
             gradeDialogFragment.dismiss();
